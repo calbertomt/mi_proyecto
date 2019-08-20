@@ -14,7 +14,7 @@ class AddAvatarToTrainerTable extends Migration
     public function up()
     {
         Schema::table('trainers', function (Blueprint $table) {
-            $table->string('avatar')->nullable();
+            $table->string('avatar');
         });
     }
 
