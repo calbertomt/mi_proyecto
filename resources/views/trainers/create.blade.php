@@ -5,7 +5,7 @@
 
 @section('content')
 	<form class="form-group" method="POST" action="{{url('/trainers')}}" enctype="multipart/form-data">
-		{{ csrf_field() }}
+		{{csrf_field()}}
 		<div class="form-group">
 			<label for="">Nombre</label>
 			<input type="text" name="name" class="form-control">
