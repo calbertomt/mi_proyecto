@@ -41,14 +41,15 @@ class TrainerController extends Controller
         /*
          *Revisamos primeros si en la variable $request viene un archivo
          *Le indicamos al sistema que trataremos a lo que viene en $request como un archivo
-         *Le damos un nombre a esa variable y luego le asignamos ese nombre a una nueva variable
-         *Movemos la imagen a una nueva carpeta
+         *Le asignamos un nombre a esa variable y luego le asignamos ese nombre a una nueva variable
+         *Movemos nuestro archivo a la carpeta public/images
          */
         if($request->hasFile('avatar')){
             $file = $request->file('avatar');
             $nameFile = time().$file->getClientOriginalName();
             $file->move(public_path().'/images/', $nameFile);
         }
+        /*******************************************************************************************/
         //Enviar todos los campos desde el Formulario
         //return $request->all();
 
@@ -68,10 +69,10 @@ class TrainerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(Trainer $trainer)
     {
 
-        $trainer = Trainer::where('slug','=',$slug)->firstOrFail();
+        //$trainer = Trainer::where('slug','=',$slug)->firstOrFail();
 
         //$trainer = Trainer::find($id);
 
@@ -84,9 +85,9 @@ class TrainerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Trainer $trainer)
     {
-        //
+        return view('trainers.edit', compact('trainer'));
     }
 
     /**
@@ -96,9 +97,33 @@ class TrainerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Trainer $trainer)
     {
-        //
+        
+         /*Tratamiento de Archivos para Editar*/
+        /*******************************************************************************************/
+        /*
+         *Se toma todo lo que viene en la variable request except el archivo
+         */
+        $trainer->fill($request->except('avatar'));
+        /*******************************************************************************************/
+        /*
+         *Revisar si nuestro request contiene un archivo
+         *Si este existe, lo tratamos de manera diferente, obtenemos el archivo
+         *Le asignamos un nuevo nombre
+         *Actualizar el path que estamos asignando dentro de nuestra base de datos
+         *Movemos nuestro archivo a la carpeta public/images
+         */
+        if($request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $nameFile = time().$file->getClientOriginalName();
+            $trainer->avatar = $nameFile; 
+            $file->move(public_path().'/images/', $nameFile);
+        }
+        /*******************************************************************************************/
+        $trainer->save();
+
+        return 'update';
     }
 
     /**

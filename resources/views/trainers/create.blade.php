@@ -1,7 +1,7 @@
  
 @extends('layouts.app')
 
-@section('title', 'Trainers create')
+@section('title', 'Trainers Create')
 
 @section('content')
 	<form class="form-group" method="POST" action="{{url('/trainers')}}" enctype="multipart/form-data">
