@@ -10,7 +10,7 @@ class Trainer extends Model
 	 *Especificarle a Laravel que campos se pueden actualizar de nuestro modelo
 	 *
 	 */
-	protected $fillable = ['name', 'avatar'];
+	protected $fillable = ['name', 'slug', 'avatar'];
 
 
     /**

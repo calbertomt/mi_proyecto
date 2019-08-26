@@ -4,6 +4,8 @@ namespace proyPrueba\Http\Controllers;
 
 use proyPrueba\Trainer;
 use Illuminate\Http\Request;
+use proyPrueba\Http\Requests\StoreTrainersResquest;
+use Illuminate\Support\Facades\Storage;
 
 class TrainerController extends Controller
 {
@@ -35,10 +37,26 @@ class TrainerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTrainersResquest $request)
     {
 
         /*
+         *----------------------------VALIDACIONES-----------------------------------------------------/
+         *Se crea una variable y se le iguala al request y ya dentro del request utilizamos ->
+         *<-la función validate, la cual recibe un array
+         *Dentro del array primero tomamos en cuenta los campos a validar
+         *Volvemos a la vista y usamos la variable de laravel $errors
+         *Creamos un Request desde artisan y copiamos las reglas de validación luego lo llamamos con ->
+         *<- use y la dirección al inicio del controlador y sustituimos nuestro Request.
+         */
+        /*$validateData = $request->validate([
+            'name'   => 'required|max: 50',
+            'slug'   => 'required',
+            'avatar' => 'required|image'
+        ]);*/
+
+        /*
+         *----------------------------TRATAMIENTO DE ARCHIVOS PARA GUARDAR--------------------------/
          *Revisamos primeros si en la variable $request viene un archivo
          *Le indicamos al sistema que trataremos a lo que viene en $request como un archivo
          *Le asignamos un nombre a esa variable y luego le asignamos ese nombre a una nueva variable
@@ -53,9 +71,14 @@ class TrainerController extends Controller
         //Enviar todos los campos desde el Formulario
         //return $request->all();
 
+        /*
+         *CREAMOS UNA INSTANCIA DE TRAINER
+         */
         $trainer = new Trainer();
+
         //Enivar un Dato o atributo en especifico del Formulario
-        $trainer->name = $request->input('name');
+        $trainer->name   = $request->input('name');
+        $trainer->slug   = $request->input('slug');
         $trainer->avatar = $nameFile;
         $trainer->save();
 
@@ -100,14 +123,16 @@ class TrainerController extends Controller
     public function update(Request $request, Trainer $trainer)
     {
         
-         /*Tratamiento de Archivos para Editar*/
-        /*******************************************************************************************/
+        /*
+         **-------------------------TRATAMIENTO DE ARCHIVOS PARA EDITAR-----------------------------/
         /*
          *Se toma todo lo que viene en la variable request except el archivo
          */
         $trainer->fill($request->except('avatar'));
+
         /*******************************************************************************************/
         /*
+         *Eliminamos la foto anterior
          *Revisar si nuestro request contiene un archivo
          *Si este existe, lo tratamos de manera diferente, obtenemos el archivo
          *Le asignamos un nuevo nombre
@@ -115,6 +140,8 @@ class TrainerController extends Controller
          *Movemos nuestro archivo a la carpeta public/images
          */
         if($request->hasFile('avatar')){
+            $file_path = public_path().'/images/'.$trainer->avatar;
+            \File::delete($file_path);
             $file = $request->file('avatar');
             $nameFile = time().$file->getClientOriginalName();
             $trainer->avatar = $nameFile; 
@@ -123,7 +150,7 @@ class TrainerController extends Controller
         /*******************************************************************************************/
         $trainer->save();
 
-        return 'update';
+        return 'Modificado con Exito';
     }
 
     /**
@@ -132,8 +159,12 @@ class TrainerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Trainer $trainer)
     {
-        //
+        $file_path = public_path().'/images/'.$trainer->avatar;
+        \File::delete($file_path);
+
+        $trainer->delete();
+        return "Registro Eliminado con Exito";
     }
 }
