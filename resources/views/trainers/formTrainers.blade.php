@@ -17,7 +17,8 @@
 				src="{{asset('images').'/'.$trainer->avatar}}" alt="" class="card-img-top rounded-circle mx-auto d-block">
 			@endif
 			<label for="">Avatar</label>
-			<input type="file" name="avatar" class="form-control-file {{ $errors->has('avatar') ? 'is-invalid':'' }}">
+			<input type="file" name="avatar" class="form-control-file {{ $errors->has('avatar') ? 'is-invalid':'' }}"
+			value="">
 			{!! $errors->first('avatar','<div class="invalid-feedback">:message</div>') !!}
 		</div>
 	

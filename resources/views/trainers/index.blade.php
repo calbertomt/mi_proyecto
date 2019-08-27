@@ -3,6 +3,15 @@
 @section('title', 'Trainers')
 
 @section('content')
+	@if(Session::has('status_del'))
+		<div class="alert alert-danger" role="alert">
+			{{ Session::get('status_del')}}
+		</div>
+	@elseif(Session::has('status_in'))
+		<div class="alert alert-success" role="alert">
+			{{ Session::get('status_in')}}
+		</div>
+	@endif
 	<div class="row">
 		@foreach($trainers as $trainer)
 			<div class="col-sm">

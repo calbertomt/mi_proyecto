@@ -41,12 +41,12 @@ class TrainerController extends Controller
     {
 
         /*
-         *----------------------------VALIDACIONES-----------------------------------------------------/
+         *----------------------------VALIDACIONES------------------------------------------------------/
          *Se crea una variable y se le iguala al request y ya dentro del request utilizamos ->
          *<-la función validate, la cual recibe un array
          *Dentro del array primero tomamos en cuenta los campos a validar
          *Volvemos a la vista y usamos la variable de laravel $errors
-         *Creamos un Request desde artisan y copiamos las reglas de validación luego lo llamamos con ->
+         *Creamos un Request desde artisan y copiamos las reglas de validación, luego lo llamamos con ->
          *<- use y la dirección al inicio del controlador y sustituimos nuestro Request.
          */
         /*$validateData = $request->validate([
@@ -82,7 +82,8 @@ class TrainerController extends Controller
         $trainer->avatar = $nameFile;
         $trainer->save();
 
-        return 'Guadado con Exito';
+        //return 'Guadado con Exito';
+        return redirect()->route('trainers.index')->with('status_in', 'Entrenador Creado con Exito');
 
     }
 
@@ -131,6 +132,15 @@ class TrainerController extends Controller
         $trainer->fill($request->except('avatar'));
 
         /*******************************************************************************************/
+        $validateData = $request->validate([
+            'name'   => 'required|max: 50',
+            'slug'   => 'required'
+        ]);
+
+        if($request->hasFile('avatar')){
+            $validateData += $request->validate(['avatar' => 'required|max:10000|mimes:jpeg,png,jpg']);
+        }
+
         /*
          *Eliminamos la foto anterior
          *Revisar si nuestro request contiene un archivo
@@ -150,7 +160,8 @@ class TrainerController extends Controller
         /*******************************************************************************************/
         $trainer->save();
 
-        return 'Modificado con Exito';
+        //return 'Modificado con Exito';
+        return redirect()->route('trainers.show', [$trainer])->with('status_up', 'Entrenador Modificado con Exito');
     }
 
     /**
@@ -165,6 +176,7 @@ class TrainerController extends Controller
         \File::delete($file_path);
 
         $trainer->delete();
-        return "Registro Eliminado con Exito";
+        //return "Registro Eliminado con Exito";
+        return redirect()->route('trainers.index')->with('status_del', 'Entrenador Eliminado con Exito');
     }
 }

@@ -26,7 +26,7 @@ class StoreTrainersResquest extends FormRequest
         return [
             'name'   => 'required|max: 50',
             'slug'   => 'required',
-            'avatar' => 'required|image'
+            'avatar' => 'required|max:10000|mimes:jpeg,png,jpg'
         ];
     }
 }
