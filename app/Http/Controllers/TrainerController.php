@@ -16,7 +16,7 @@ class TrainerController extends Controller
      */
     public function index(Request $request)
     {
-        $request->user()->authorizedRoles(['admin']);
+        $request->user()->authorizedRoles(['admin','user']);
         $trainers = Trainer::all();
 
         return view('trainers.index', compact('trainers'));
@@ -84,7 +84,7 @@ class TrainerController extends Controller
         $trainer->save();
 
         //return 'Guadado con Exito';
-        return redirect()->route('trainers.index')->with('status_in', 'Entrenador Creado con Exito');
+        return redirect()->route('trainers.index')->with('status_in', 'Trainer Created Successful');
 
     }
 
@@ -162,7 +162,7 @@ class TrainerController extends Controller
         $trainer->save();
 
         //return 'Modificado con Exito';
-        return redirect()->route('trainers.show', [$trainer])->with('status_up', 'Entrenador Modificado con Exito');
+        return redirect()->route('trainers.show', [$trainer])->with('status_up', 'Successful Modified Trainer');
     }
 
     /**
@@ -178,6 +178,6 @@ class TrainerController extends Controller
 
         $trainer->delete();
         //return "Registro Eliminado con Exito";
-        return redirect()->route('trainers.index')->with('status_del', 'Entrenador Eliminado con Exito');
+        return redirect()->route('trainers.index')->with('status_del', 'Successfully Delete Trainer');
     }
 }

@@ -15,7 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('trainers', 'TrainerController');	
+Route::resource('trainers', 'TrainerController');
+Route::resource('teams', 'TeamController');
 
 Auth::routes();
 
