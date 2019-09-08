@@ -14,13 +14,13 @@
 		<h5 class="card-title">{{$trainer->name}}</h5>
 		<p >Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 		<div class="container">
-			<a href="{{url('/trainers/'.$trainer->slug.'/edit')}}" class="btn btn-primary">Editar</a>
+			<a href="{{url('/trainers/'.$trainer->slug.'/edit')}}" class="btn btn-primary">Edit</a>
 			<form class="form-group" method="POST" action="{{url('/trainers/'.$trainer->slug)}}" enctype="multipart/form-data" style="display:inline">
 				{{ csrf_field() }}
 				{{method_field('DELETE')}}
 
 					<button type="submit" class="btn btn-danger" 
-					onclick="return confirm('Esta seguro de Eliminar Al Entrenador?')">Eliminar</button>
+					onclick="return confirm('Esta seguro de Eliminar Al Entrenador?')">Delete</button>
 			</form>
 		</div>
 	</div>

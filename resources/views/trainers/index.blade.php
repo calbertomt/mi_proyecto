@@ -12,11 +12,12 @@
 			{{ Session::get('status_in')}}
 		</div>
 	@endif
+	<a href="{{url('/trainers/create')}}" class="btn btn-primary" style="margin-top: 20px">New Trainer</a>
 	<div class="row">
 		@foreach($trainers as $trainer)
 			<div class="col-sm">
 				<div class="card text-center" style="width: 18rem; margin-top: 70px">
-				  <img style="height: 100px; width: 100px; background-color: #EFEFEF; margin: 20px" src="images/{{$trainer->avatar}}" 
+				  <img style="height: 100px; width: 100px; background-color: #EFEFEF; margin: 20px" src="images/{{$trainer->avatar}}"
 				  alt="" class="card-img-top rounded-circle mx-auto d-block">
 				  <div class="card-body">
 				    <h5 class="card-title">{{$trainer->name}}</h5>

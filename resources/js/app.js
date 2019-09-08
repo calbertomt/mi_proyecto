@@ -22,6 +22,8 @@ window.Vue = require('vue');
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('teams-component', require('./components/TeamComponent.vue').default);
 Vue.component('spinner', require('./components/Spinner.vue').default);
+Vue.component('add-teams-btn', require('./components/AddTeamComponent.vue').default);
+Vue.component('create-teams-form', require('./components/CreateTeamComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
